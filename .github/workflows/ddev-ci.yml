@@ -1,0 +1,33 @@
+name: DDEV QA
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install DDEV
+        run: |
+          sudo install -m 0755 -d /etc/apt/keyrings
+          curl -fsSL https://pkg.ddev.com/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/ddev.gpg
+          echo "deb [signed-by=/etc/apt/keyrings/ddev.gpg] https://pkg.ddev.com/apt/ * *" | sudo tee /etc/apt/sources.list.d/ddev.list >/dev/null
+          sudo apt-get update
+          sudo apt-get install -y ddev
+
+      - name: Start DDEV
+        run: |
+          ddev config global --instrumentation-opt-in=false
+          ddev start -y
+
+      - name: Run Laravel QA in DDEV
+        run: |
+          ddev artisan migrate
+          ddev artisan route:list --except-vendor
+          ddev artisan view:cache
+          ddev artisan test

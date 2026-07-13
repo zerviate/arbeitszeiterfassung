@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+## Description: Run standard QA commands in DDEV
+## Usage: qa
+## Example: "ddev qa"
+
+set -euo pipefail
+
+ddev start -y
+ddev artisan migrate
+ddev artisan route:list --except-vendor
+ddev artisan view:cache
+ddev artisan test
