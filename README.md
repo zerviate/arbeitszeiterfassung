@@ -1,8 +1,8 @@
 # Arbeitszeiterfassung
 
-Laravel work-time tracking application with time sessions, breaks, corrections, vacation requests, sick leave, contracts, evaluations, audit logs, and exports.
+## NOTE: THIS PROJECT WAS MY IHK-EXAM PROJECT
 
-Repo: `https://github.com/zerviate/arbeitszeiterfassung`
+Laravel work-time tracking application with time sessions, breaks, corrections, vacation requests, sick leave, contracts, evaluations, audit logs, and exports.
 
 This is a server-side Laravel project, so it cannot run directly on GitHub Pages. Use the local setup below.
 
