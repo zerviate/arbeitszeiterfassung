@@ -2,6 +2,8 @@
 
 ## NOTE: THIS PROJECT WAS MY IHK-EXAM PROJECT
 
+This was my final exam project for my IHK Apprenticeship for Software Development. This was graded 94/100 Points.
+
 Laravel work-time tracking application with time sessions, breaks, corrections, vacation requests, sick leave, contracts, evaluations, audit logs, and exports.
 
 This is a server-side Laravel project, so it cannot run directly on GitHub Pages. Use the local setup below.
