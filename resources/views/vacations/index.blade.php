@@ -37,6 +37,13 @@
     @endif
 
     <x-ui.data-table title="Urlaubsanträge" class="data-table-tall">
+        <x-slot:actions>
+            <form method="get" action="{{ route('vacations.index') }}" class="table-filter" data-date-switcher>
+                <label for="vacations-month" class="visually-hidden">Monat</label>
+                <input id="vacations-month" type="month" name="month" value="{{ $selectedMonth }}">
+                <a class="table-filter-reset" href="{{ route('vacations.index') }}">Aktueller Monat</a>
+            </form>
+        </x-slot:actions>
         <table>
             <thead>
             <tr>

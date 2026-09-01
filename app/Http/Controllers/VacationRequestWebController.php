@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Services\VacationApprovalService;
 use App\Services\VacationBalanceService;
 use App\Services\VacationRequestService;
+use App\Support\DateInput;
 use App\Support\VisibleUserScope;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -35,15 +36,27 @@ class VacationRequestWebController extends Controller
             'absence.view.all',
         ]);
 
+        $validated = $request->validate([
+            'month' => ['nullable', 'regex:/^\d{4}-(0[1-9]|1[0-2])$/'],
+        ]);
+
+        $selectedMonth = isset($validated['month']) && $validated['month'] !== ''
+            ? (string) $validated['month']
+            : now()->setTimezone($actor->timezone ?: 'UTC')->format('Y-m');
+
+        [$monthStart, $monthEnd] = DateInput::resolveMonthRange($selectedMonth);
+
         $requests = AbsenceRequest::query()
             ->with(['user', 'requestedBy', 'reviewedBy'])
             ->where('type', AbsenceRequest::TYPE_VACATION)
             ->whereIn('user_id', $visibleUserIds)
+            ->whereDate('start_date', '<=', $monthEnd)
+            ->whereDate('end_date', '>=', $monthStart)
             ->orderByDesc('created_at')
             ->paginate(20)
             ->withQueryString();
 
-        $summaryYear = (int) now()->setTimezone($actor->timezone ?: 'UTC')->format('Y');
+        $summaryYear = (int) substr($selectedMonth, 0, 4);
         $vacationSummary = $showVacationSummary
             ? $this->vacationBalanceService->getYearSummary(
                 user: $actor,
@@ -55,6 +68,7 @@ class VacationRequestWebController extends Controller
             'requests' => $requests,
             'vacationSummary' => $vacationSummary,
             'showVacationSummary' => $showVacationSummary,
+            'selectedMonth' => $selectedMonth,
         ]);
     }
 
