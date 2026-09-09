@@ -34,7 +34,7 @@
             <form method="get" action="{{ route('sick-leaves.index') }}" class="table-filter" data-date-switcher>
                 <label for="sick-leaves-month" class="visually-hidden">Monat</label>
                 <input id="sick-leaves-month" type="month" name="month" value="{{ $selectedMonth ?? '' }}">
-                <a class="table-filter-reset" href="{{ route('sick-leaves.index') }}">Alle anzeigen</a>
+                <a class="table-filter-reset" href="{{ route('sick-leaves.index') }}">Aktueller Monat</a>
             </form>
         </x-slot:actions>
         <table>

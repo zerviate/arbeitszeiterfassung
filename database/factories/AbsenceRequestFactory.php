@@ -15,14 +15,14 @@ class AbsenceRequestFactory extends Factory
 
     public function definition(): array
     {
-        $startDate = now()->addDays(10)->toDateString();
-        $endDate = now()->addDays(12)->toDateString();
+        $startDate = now()->startOfMonth()->addDays(10);
+        $endDate = $startDate->copy()->addDays(2);
 
         return [
             'user_id' => User::factory(),
             'type' => AbsenceRequest::TYPE_VACATION,
-            'start_date' => $startDate,
-            'end_date' => $endDate,
+            'start_date' => $startDate->toDateString(),
+            'end_date' => $endDate->toDateString(),
             'days_requested' => 3,
             'reason' => fake()->sentence(),
             'status' => AbsenceRequest::STATUS_PENDING,

@@ -4,30 +4,48 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ddev-qa-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   qa:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      - name: Install DDEV
-        run: |
-          sudo install -m 0755 -d /etc/apt/keyrings
-          curl -fsSL https://pkg.ddev.com/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/ddev.gpg
-          echo "deb [signed-by=/etc/apt/keyrings/ddev.gpg] https://pkg.ddev.com/apt/ * *" | sudo tee /etc/apt/sources.list.d/ddev.list >/dev/null
-          sudo apt-get update
-          sudo apt-get install -y ddev
+      - name: Setup DDEV
+        uses: ddev/github-action-setup-ddev@v1
 
-      - name: Start DDEV
+      - name: Prepare Laravel environment
         run: |
-          ddev config global --instrumentation-opt-in=false
-          ddev start -y
+          ddev exec cp .env.example .env
+          ddev exec mkdir -p database
+          ddev exec touch database/database.sqlite
 
-      - name: Run Laravel QA in DDEV
+      - name: Install dependencies
         run: |
-          ddev artisan migrate
+          ddev composer install --no-interaction --prefer-dist
+          ddev npm ci
+
+      - name: Initialize application
+        run: ddev artisan key:generate
+
+      - name: Build frontend
+        run: |
+          ddev npm run build
+          ddev npm run build:demo
+
+      - name: Verify Laravel application
+        run: |
+          ddev artisan migrate --force
           ddev artisan route:list --except-vendor
           ddev artisan view:cache
-          ddev artisan test
+
+      - name: Run tests
+        run: ddev artisan test

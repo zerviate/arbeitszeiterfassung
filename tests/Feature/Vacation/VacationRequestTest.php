@@ -24,7 +24,7 @@ class VacationRequestTest extends TestCase
             'reason' => 'Kurzurlaub',
         ]);
 
-        $response->assertRedirect(route('vacations.index'));
+        $response->assertRedirect(route('vacations.index', ['month' => '2026-04']));
 
         $this->assertDatabaseHas('absence_requests', [
             'user_id' => $employee->id,
@@ -109,7 +109,7 @@ class VacationRequestTest extends TestCase
             'reason' => 'Teamurlaub',
         ]);
 
-        $response->assertRedirect(route('vacations.index'));
+        $response->assertRedirect(route('vacations.index', ['month' => '2026-05']));
 
         $this->assertDatabaseHas('absence_requests', [
             'user_id' => $employee->id,

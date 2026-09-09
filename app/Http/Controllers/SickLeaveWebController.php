@@ -34,23 +34,16 @@ class SickLeaveWebController extends Controller
 
         $selectedMonth = isset($validated['month']) && $validated['month'] !== ''
             ? (string) $validated['month']
-            : null;
+            : now()->setTimezone($actor->timezone ?: 'UTC')->format('Y-m');
 
-        $metricMonth = $selectedMonth ?: now()->setTimezone($actor->timezone ?: 'UTC')->format('Y-m');
-        [$metricMonthStart, $metricMonthEnd] = DateInput::resolveMonthRange($metricMonth);
+        [$monthStart, $monthEnd] = DateInput::resolveMonthRange($selectedMonth);
 
         $groupsQuery = SickLeaveGroup::query()
             ->with(['user', 'recordedBy'])
             ->withCount('records')
-            ->whereIn('user_id', $visibleUserIds);
-
-        if ($selectedMonth !== null) {
-            [$monthStart, $monthEnd] = DateInput::resolveMonthRange($selectedMonth);
-
-            $groupsQuery
-                ->whereDate('start_date', '<=', $monthEnd)
-                ->whereDate('end_date', '>=', $monthStart);
-        }
+            ->whereIn('user_id', $visibleUserIds)
+            ->whereDate('start_date', '<=', $monthEnd)
+            ->whereDate('end_date', '>=', $monthStart);
 
         $groups = $groupsQuery
             ->orderByDesc('start_date')
@@ -60,8 +53,8 @@ class SickLeaveWebController extends Controller
 
         $monthGroupCount = SickLeaveGroup::query()
             ->whereIn('user_id', $visibleUserIds)
-            ->whereDate('start_date', '<=', $metricMonthEnd)
-            ->whereDate('end_date', '>=', $metricMonthStart)
+            ->whereDate('start_date', '<=', $monthEnd)
+            ->whereDate('end_date', '>=', $monthStart)
             ->count();
 
         $totalGroupCount = SickLeaveGroup::query()
@@ -71,10 +64,10 @@ class SickLeaveWebController extends Controller
         return view('sick-leaves.index', [
             'groups' => $groups,
             'selectedMonth' => $selectedMonth,
-            'metricMonth' => $metricMonth,
+            'metricMonth' => $selectedMonth,
             'monthGroupCount' => $monthGroupCount,
             'totalGroupCount' => $totalGroupCount,
-            'exportMonth' => $selectedMonth ?: $metricMonth,
+            'exportMonth' => $selectedMonth,
             'canManage' => Gate::allows('create', SickLeaveGroup::class),
             'canExport' => $actor->hasRole('admin'),
         ]);

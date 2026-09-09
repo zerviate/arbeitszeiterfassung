@@ -1,0 +1,202 @@
+#app {
+    min-height: 100%;
+}
+
+.demo-login-note {
+    margin: 0 0 var(--space-5);
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    background: var(--color-info-soft);
+    color: var(--color-text-secondary);
+    font-size: 0.88rem;
+}
+
+.demo-menu-button {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+}
+
+.demo-disclosure {
+    margin: var(--space-6) 0 0;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-subtle);
+    color: var(--color-text-subtle);
+    font-size: 0.75rem;
+    text-align: center;
+}
+
+.demo-heading-row,
+.demo-form-actions,
+.demo-export-row,
+.demo-inline-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.demo-heading-row {
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+}
+
+.demo-heading-row h2,
+.demo-heading-row h3,
+.demo-heading-row h4 {
+    margin-bottom: 0;
+}
+
+.demo-form-actions,
+.demo-export-row {
+    margin-top: var(--space-4);
+}
+
+.demo-inline-form {
+    align-items: flex-end;
+    margin-bottom: var(--space-4);
+}
+
+.demo-inline-form label {
+    width: min(280px, 100%);
+    margin: 0;
+}
+
+.demo-align-end {
+    display: flex;
+    align-items: flex-end;
+}
+
+.demo-break-row {
+    margin-bottom: 12px;
+}
+
+.demo-metric-date {
+    font-size: 1rem;
+    line-height: 1.35;
+}
+
+.demo-section-button {
+    margin-top: var(--space-4);
+}
+
+.demo-export-actions {
+    max-width: 760px;
+}
+
+.demo-heatmap-popover {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+
+.demo-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    padding: 12px;
+    background: rgba(15, 23, 42, 0.25);
+}
+
+.demo-review-popover {
+    width: min(380px, 100%);
+    margin: 0;
+}
+
+.demo-audit-filter {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(160px, 1fr)) auto auto;
+    align-items: end;
+    gap: 10px;
+}
+
+.demo-audit-filter label {
+    margin-bottom: 4px;
+}
+
+.demo-weekday {
+    display: inline-flex;
+    margin: 0 16px 8px 0;
+}
+
+.demo-holiday-main {
+    display: grid;
+    gap: 4px;
+    width: 100%;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.demo-holiday-main strong {
+    font-size: 0.74rem;
+    color: var(--color-text-subtle);
+}
+
+.demo-holiday-main span {
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.balance-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+}
+
+.balance-stats > div {
+    padding: 10px 12px;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-secondary);
+}
+
+.balance-stats span,
+.balance-stats strong {
+    display: block;
+}
+
+.balance-stats span {
+    margin-bottom: 6px;
+    color: var(--color-text-subtle);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.holiday-day-actions .btn {
+    min-height: 24px;
+    min-width: 0;
+    flex: 1 1 0;
+    padding: 3px 4px;
+    overflow: hidden;
+    font-size: 0.58rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+    .demo-audit-filter {
+        grid-template-columns: 1fr;
+    }
+
+    .demo-heatmap-popover {
+        position: fixed;
+        right: 12px;
+        bottom: 12px;
+        left: 12px;
+        max-width: none;
+    }
+
+    .demo-inline-form label {
+        width: 100%;
+    }
+}

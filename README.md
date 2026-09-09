@@ -4,6 +4,10 @@ Laravel work-time tracking application with time sessions, breaks, corrections, 
 
 Repo: `https://github.com/zerviate/arbeitszeiterfassung`
 
+Live demo: `https://zerviate.github.io/arbeitszeiterfassung/`
+
+The live demo reproduces the authenticated admin interface with synthetic browser data. Navigation, forms, time tracking, reviews, filters, calendars, and exports are interactive; changes are stored only in the visitor's browser and can be reset from the **Mehr** menu.
+
 This is a server-side Laravel project, so it cannot run directly on GitHub Pages. Use the local setup below.
 
 ## Demo Access
